@@ -1,9 +1,10 @@
+import allure
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 import math
 from selenium.common.exceptions import NoAlertPresentException
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.wait import WebDriverWait
-from .locators import BasePageLocators
+from pages.locators import BasePageLocators
 
 
 class BasePage:
@@ -68,3 +69,11 @@ class BasePage:
     def should_be_authorized_user(self):
         assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented," \
                                                                      " probably unauthorised user"
+
+    def take_screenshot(self):
+        with allure.step('Taking screenshot'):
+            allure.attach(
+            self.browser.get_screenshot_as_png(),
+            name='screenshot',
+            attachment_type=allure.attachment_type.PNG
+        )
